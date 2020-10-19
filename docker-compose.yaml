@@ -1,0 +1,30 @@
+version: '3'
+services:
+  freeipa:
+    image: cloyne/freeipa-server
+    container_name: freeipa-server-container
+    hostname: 'ipa.example.test'
+    networks:
+      server3:
+        ipv4_address: '172.25.0.2'
+    environment:
+      - DEBUG_TRACE=1
+      - DEBUG_NO_EXIT=1
+    volumes:
+      - ../sys/fs/cgroup:/sys/fs/cgroup:ro
+      - data:/data
+    ports:
+      - "80:80"
+      - "443:443"
+      - "3000:3000"
+
+volumes:
+  data:
+
+
+networks:
+  server3:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: '172.25.0.0/24'
